@@ -1,4 +1,4 @@
-// Sonic R 2004 Autosplitter (v1)
+// Sonic R 2004 Autosplitter 1.0.1
 // Made by Daily? Edited by IDGeek121
 
 // 2004 release (should work with Sonic R Updater as well)
