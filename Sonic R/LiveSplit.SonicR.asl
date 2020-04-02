@@ -21,12 +21,15 @@ state("SonicR", "2004")
 startup
 {
 	vars.timerCount = 0;
+	vars.storedTime = 0.0;
 	refreshRate = 30;
 }
 
 start
 {
+	//print("Game Mode: " + current.inGame);
 	vars.timerCount = 0;
+	vars.storedTime = 0.0;
 	
     if ( current.menuProgression == 1 && old.menuProgression == 255 
 		&& current.playerReady == 1 && old.playerReady == 1 )
@@ -48,7 +51,8 @@ update
 
 gameTime
 {
-	double time = vars.timerCount / 60.0;
+	double time = (Math.Floor(vars.timerCount * 100.0 / 60.0) / 100.0) + vars.storedTime;
+	//print("Time: " + time);
 	return TimeSpan.FromSeconds(time);
 }
 
@@ -56,7 +60,13 @@ split
 {
 	if (current.inDemo != 2 && old.levelComplete != 3)
 	{
-		return current.levelComplete == 3;
+		if (current.levelComplete == 3)
+		{
+			vars.storedTime += (Math.Floor(vars.timerCount * 100.0 / 60.0) / 100.0);
+			//print("Stored Time: " + vars.storedTime);
+			vars.timerCount = 0;
+			return true;
+		}
 	}
 }
 
